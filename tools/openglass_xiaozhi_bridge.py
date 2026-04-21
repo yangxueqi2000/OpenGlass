@@ -12,7 +12,7 @@ import urllib.request
 import uuid
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, TypeAlias
 
 try:
     import websockets
@@ -24,6 +24,8 @@ try:
 except ImportError:  # pragma: no cover - runtime dependency check
     BleakClient = None
     BleakScanner = None
+
+BleakClientType: TypeAlias = Any
 
 
 OPENGLASS_NAME = "OpenGlass"
@@ -73,7 +75,7 @@ class OpenGlassCamera:
         self.ble_name = ble_name
         self.address = address
         self.capture_timeout = capture_timeout
-        self.client: BleakClient | None = None
+        self.client: BleakClientType | None = None
         self._capture_lock = asyncio.Lock()
         self._current_future: asyncio.Future[bytes] | None = None
         self._buffer = bytearray()
